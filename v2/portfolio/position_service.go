@@ -192,7 +192,7 @@ type PositionMode struct {
 func (s *GetPositionModeService) Do(ctx context.Context, opts ...RequestOption) (res *PositionMode, err error) {
 	r := &request{
 		method:   http.MethodGet,
-		endpoint: "/fapi/v1/positionSide/dual",
+		endpoint: "/papi/v1/um/positionSide/dual",
 		secType:  secTypeSigned,
 	}
 	r.setFormParams(params{})

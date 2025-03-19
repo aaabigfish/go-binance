@@ -1,13 +1,12 @@
 package portfolio
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 const (
-	ApiKey    = ""
-	SecretKey = ""
+	ApiKey    = "pvokofVECRKOcKdnE7hnfj8ZNf4QMk2j4nfUFNAsWXThEP1mAmZANCyGKMmnQ4yR"
+	SecretKey = "Cb6FkMJoGlvQiJ9EF9Hv7dlBmzhHmXs9oFup9pU14biusorBDmZsNB9gwZywhTmb"
 )
 
 func TestGetBalanceService_Do(t *testing.T) {
@@ -50,15 +49,9 @@ func TestDemo04(t *testing.T) {
 
 func TestDemo05(t *testing.T) {
 	client := NewClient(ApiKey, SecretKey)
-	res, err := client.NewCreateOrderService().Symbol("BTCUSDT").Side(SideTypeSell).PositionSide(PositionSideTypeShort).Type(OrderTypeLimit).TimeInForce(TimeInForceTypeGTC).Quantity("0.003").Price("100000").Do(newContext())
+	res, err := client.NewGetPositionModeService().Do(newContext())
 	if err != nil {
 		t.Error(err)
 	}
 	t.Log(res)
-}
-
-func TestDemo06(t *testing.T) {
-	client := NewClient(ApiKey, SecretKey)
-	res, err := client.NewCreateOrderService().TimeInForce(TimeInForceTypeGTC).Symbol("GMXUSDT").Side(SideTypeSell).Type(OrderTypeTakeProfitMarket).Quantity("1").StopPrice("30").Price("31").Do(ctx)
-	assert.Empty(t, err)
 }
