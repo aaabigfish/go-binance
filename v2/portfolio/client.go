@@ -470,6 +470,10 @@ func (c *Client) NewCreateOrderService() *CreateOrderService {
 	return &CreateOrderService{c: c}
 }
 
+func (c *Client) NewCreateConditionalOrderService() *CreateConditionalOrderService {
+	return &CreateConditionalOrderService{c: c}
+}
+
 // NewModifyOrderService init creating order service
 func (c *Client) NewModifyOrderService() *ModifyOrderService {
 	return &ModifyOrderService{c: c}

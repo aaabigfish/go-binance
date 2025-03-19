@@ -5,8 +5,8 @@ import (
 )
 
 const (
-	ApiKey    = "pvokofVECRKOcKdnE7hnfj8ZNf4QMk2j4nfUFNAsWXThEP1mAmZANCyGKMmnQ4yR"
-	SecretKey = "Cb6FkMJoGlvQiJ9EF9Hv7dlBmzhHmXs9oFup9pU14biusorBDmZsNB9gwZywhTmb"
+	ApiKey    = ""
+	SecretKey = ""
 )
 
 func TestGetBalanceService_Do(t *testing.T) {
@@ -49,7 +49,9 @@ func TestDemo04(t *testing.T) {
 
 func TestDemo05(t *testing.T) {
 	client := NewClient(ApiKey, SecretKey)
-	res, err := client.NewGetPositionModeService().Do(newContext())
+	res, err := client.NewCreateConditionalOrderService().Side(SideTypeBuy).StopPrice("80000").Quantity("0.003").PositionSide(PositionSideTypeShort).Symbol("BTCUSDT").
+		TimeInForce(TimeInForceTypeGTC).Type(OrderTypeTakeProfitMarket).
+		Do(newContext())
 	if err != nil {
 		t.Error(err)
 	}
