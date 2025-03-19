@@ -5,6 +5,7 @@ import (
 	"context"
 	"crypto/tls"
 	"fmt"
+	"github.com/aaabigfish/go-binance/v2/portfolio"
 	"io"
 	"log"
 	"net/http"
@@ -401,6 +402,10 @@ func NewDeliveryClient(apiKey, secretKey string) *delivery.Client {
 // NewOptionsClient initialize client for options API
 func NewOptionsClient(apiKey, secretKey string) *options.Client {
 	return options.NewClient(apiKey, secretKey)
+}
+
+func NewPortfolioClient(apiKey, secretKey string) *portfolio.Client {
+	return portfolio.NewClient(apiKey, secretKey)
 }
 
 type doFunc func(req *http.Request) (*http.Response, error)
