@@ -40,7 +40,7 @@ func TestDemo3(t *testing.T) {
 
 func TestDemo04(t *testing.T) {
 	client := NewClient(ApiKey, SecretKey)
-	res, err := client.NewCancelOrderService().Symbol("BTCUSDT").OrderID(628950371368).Do(newContext())
+	res, err := client.NewCancelConditionalOrderService().Symbol("BTCUSDT").OrderID(60159385).Do(newContext())
 	if err != nil {
 		t.Error(err)
 	}

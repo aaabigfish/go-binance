@@ -29,7 +29,7 @@ func (s *ChangeLeverageService) Leverage(leverage int) *ChangeLeverageService {
 func (s *ChangeLeverageService) Do(ctx context.Context, opts ...RequestOption) (res *SymbolLeverage, err error) {
 	r := &request{
 		method:   http.MethodPost,
-		endpoint: "/fapi/v1/leverage",
+		endpoint: "/papi/v1/um/leverage",
 		secType:  secTypeSigned,
 	}
 	r.setFormParams(params{

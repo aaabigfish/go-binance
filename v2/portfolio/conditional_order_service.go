@@ -278,3 +278,80 @@ type ConditionalOrder struct {
 	GoodTillDate            int    `json:"goodTillDate"`
 	PriceMatch              string `json:"priceMatch"`
 }
+
+// CancelConditionalOrderService cancel an order
+type CancelConditionalOrderService struct {
+	c                 *Client
+	symbol            string
+	orderID           *int64
+	origClientOrderID *string
+}
+
+// Symbol set symbol
+func (s *CancelConditionalOrderService) Symbol(symbol string) *CancelConditionalOrderService {
+	s.symbol = symbol
+	return s
+}
+
+// OrderID set orderID
+func (s *CancelConditionalOrderService) OrderID(orderID int64) *CancelConditionalOrderService {
+	s.orderID = &orderID
+	return s
+}
+
+// OrigClientOrderID set origClientOrderID
+func (s *CancelConditionalOrderService) OrigClientOrderID(origClientOrderID string) *CancelConditionalOrderService {
+	s.origClientOrderID = &origClientOrderID
+	return s
+}
+
+// Do send request
+func (s *CancelConditionalOrderService) Do(ctx context.Context, opts ...RequestOption) (res *CancelConditionalOrderResponse, err error) {
+	r := &request{
+		method:   http.MethodDelete,
+		endpoint: "/papi/v1/um/conditional/order",
+		secType:  secTypeSigned,
+	}
+	r.setFormParam("symbol", s.symbol)
+	if s.orderID != nil {
+		r.setFormParam("strategyId", *s.orderID)
+	}
+	if s.origClientOrderID != nil {
+		r.setFormParam("origClientOrderId", *s.origClientOrderID)
+	}
+	data, _, err := s.c.callAPI(ctx, r, opts...)
+	if err != nil {
+		return nil, err
+	}
+	res = new(CancelConditionalOrderResponse)
+	err = json.Unmarshal(data, res)
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
+}
+
+// CancelConditionalOrderResponse define response of canceling order
+type CancelConditionalOrderResponse struct {
+	NewClientStrategyId     string `json:"newClientStrategyId"`
+	StrategyId              int    `json:"strategyId"`
+	StrategyStatus          string `json:"strategyStatus"`
+	StrategyType            string `json:"strategyType"`
+	OrigQty                 string `json:"origQty"`
+	Price                   string `json:"price"`
+	ReduceOnly              bool   `json:"reduceOnly"`
+	Side                    string `json:"side"`
+	PositionSide            string `json:"positionSide"`
+	StopPrice               string `json:"stopPrice"`
+	Symbol                  string `json:"symbol"`
+	TimeInForce             string `json:"timeInForce"`
+	ActivatePrice           string `json:"activatePrice"`
+	PriceRate               string `json:"priceRate"`
+	BookTime                int64  `json:"bookTime"`
+	UpdateTime              int64  `json:"updateTime"`
+	WorkingType             string `json:"workingType"`
+	PriceProtect            bool   `json:"priceProtect"`
+	SelfTradePreventionMode string `json:"selfTradePreventionMode"`
+	GoodTillDate            int    `json:"goodTillDate"`
+	PriceMatch              string `json:"priceMatch"`
+}
