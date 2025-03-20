@@ -222,3 +222,59 @@ type CreateConditionalOrderResponse struct {
 	RateLimitOrder10s       string           `json:"rateLimitOrder10s,omitempty"` //
 	RateLimitOrder1m        string           `json:"rateLimitOrder1m,omitempty"`  //
 }
+
+// ListConditionalOpenOrdersService list opened orders
+type ListConditionalOpenOrdersService struct {
+	c      *Client
+	symbol string
+}
+
+// Symbol set symbol
+func (s *ListConditionalOpenOrdersService) Symbol(symbol string) *ListConditionalOpenOrdersService {
+	s.symbol = symbol
+	return s
+}
+
+// Do send request
+func (s *ListConditionalOpenOrdersService) Do(ctx context.Context, opts ...RequestOption) (res []*ConditionalOrder, err error) {
+	r := &request{
+		method:   http.MethodGet,
+		endpoint: "/papi/v1/um/conditional/openOrders",
+		secType:  secTypeSigned,
+	}
+	if s.symbol != "" {
+		r.setParam("symbol", s.symbol)
+	}
+	data, _, err := s.c.callAPI(ctx, r, opts...)
+	if err != nil {
+		return []*ConditionalOrder{}, err
+	}
+	res = make([]*ConditionalOrder, 0)
+	err = json.Unmarshal(data, &res)
+	if err != nil {
+		return []*ConditionalOrder{}, err
+	}
+	return res, nil
+}
+
+type ConditionalOrder struct {
+	NewClientStrategyId     string `json:"newClientStrategyId"`
+	StrategyId              int    `json:"strategyId"`
+	StrategyStatus          string `json:"strategyStatus"`
+	StrategyType            string `json:"strategyType"`
+	OrigQty                 string `json:"origQty"`
+	Price                   string `json:"price"`
+	ReduceOnly              bool   `json:"reduceOnly"`
+	Side                    string `json:"side"`
+	PositionSide            string `json:"positionSide"`
+	StopPrice               string `json:"stopPrice"`
+	Symbol                  string `json:"symbol"`
+	BookTime                int64  `json:"bookTime"`
+	UpdateTime              int64  `json:"updateTime"`
+	TimeInForce             string `json:"timeInForce"`
+	ActivatePrice           string `json:"activatePrice"`
+	PriceRate               string `json:"priceRate"`
+	SelfTradePreventionMode string `json:"selfTradePreventionMode"`
+	GoodTillDate            int    `json:"goodTillDate"`
+	PriceMatch              string `json:"priceMatch"`
+}

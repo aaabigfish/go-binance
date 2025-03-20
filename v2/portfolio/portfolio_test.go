@@ -31,7 +31,7 @@ func TestDemo2(t *testing.T) {
 
 func TestDemo3(t *testing.T) {
 	client := NewClient(ApiKey, SecretKey)
-	res, err := client.NewListOpenOrdersService().Do(newContext())
+	res, err := client.NewListConditionalOpenOrdersService().Do(newContext())
 	if err != nil {
 		t.Error(err)
 	}
